@@ -14,5 +14,6 @@ class CustomButtonBloc extends Bloc<CustomButtonEvent, CustomButtonState> {
       stateFromEvent = event.newTitle;
       emit(ButtonTitleChangeState(currentTitle: stateFromEvent));
     });
+
   }
 }

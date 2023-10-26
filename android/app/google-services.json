@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "205233086782",
+    "project_id": "e-learning-app-98835",
+    "storage_bucket": "e-learning-app-98835.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205233086782:android:20354cbbc0792461ad0c6f",
+        "android_client_info": {
+          "package_name": "com.ambient_production.e_learning_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxMaIOAShGvXQGAC_u-5kn0JsO887Xw90"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -9,16 +9,18 @@
   },
   "commonWords": {
     "next": "Next",
-    "getStarted": "Get Started"
+    "getStarted": "Get Started",
+    "or": "or"
   },
   "signInLogIn": {
+    "register" : "Register",
     "signIn": "Sign In",
     "logIn": "Log In",
     "loginAdvice": "Or use your email account login",
     "email": "Email",
     "password": "Password",
     "emailHint": "Enter your email address",
-    "passwordHint": "Enter your password"
-
+    "passwordHint": "Enter your password",
+    "forgot": "Forgot Password?"
   }
 }

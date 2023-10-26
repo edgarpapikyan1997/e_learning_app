@@ -75,14 +75,28 @@ extension ThemeDataHelper on ThemeData {
     color: AppColors.white,
     fontSize: 12,
     height: 1.16,
+    decoration: TextDecoration.underline
   );
 
   TextStyle get headline8 => const TextStyle(
+      fontFamily: FontFamily.Nunito,
+      fontWeight: FontWeight.w400,
+      color: AppColors.white,
+      fontSize: 13,
+      height: 1.16,
+
+      decorationColor: AppColors.lightBlue,
+      decorationThickness: 2,
+      decoration: TextDecoration.underline
+  );
+
+  TextStyle get headline9 => const TextStyle(
     fontFamily: FontFamily.Nunito,
     fontWeight: FontWeight.w500,
     color: AppColors.white,
     fontSize: 10,
   );
+
 
   TextStyle get subtitle1 => textTheme.titleMedium!;
 

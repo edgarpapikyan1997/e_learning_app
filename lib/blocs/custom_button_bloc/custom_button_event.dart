@@ -5,6 +5,8 @@ abstract class CustomButtonEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+
+
 class ButtonTitleChangeEvent extends CustomButtonEvent {
   final String newTitle;
 

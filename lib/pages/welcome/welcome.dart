@@ -21,7 +21,7 @@ class WelcomePage extends StatefulWidget {
 class _WelcomePageState extends State<WelcomePage> {
   final PageController pageController = PageController();
   final int welcomePagesCount = 3;
-  bool readyToMove = false;
+  String? buttonTitle;
 
   @override
   void dispose() {
@@ -47,13 +47,15 @@ class _WelcomePageState extends State<WelcomePage> {
                       BlocProvider.of<DotIndicatorBloc>(context)
                           .add(DotIndicatorEventChanged(index: currentState));
                       if (index == 2) {
+                        buttonTitle = 'commonWords.getStarted'.tr();
                         BlocProvider.of<CustomButtonBloc>(context).add(
                             ButtonTitleChangeEvent(
-                                newTitle: 'commonWords.getStarted'.tr()));
+                                newTitle: buttonTitle as String));
                       } else {
+                        buttonTitle = 'commonWords.next'.tr();
                         BlocProvider.of<CustomButtonBloc>(context).add(
                             ButtonTitleChangeEvent(
-                                newTitle: 'commonWords.next'.tr()));
+                                newTitle: buttonTitle as String));
                       }
                     },
                     controller: pageController,
@@ -107,33 +109,12 @@ class _WelcomePageState extends State<WelcomePage> {
                   );
                   if (currentState == welcomePagesCount) {
                     currentState -= 1;
-                    readyToMove = true;
                   }
-                  if (currentState == welcomePagesCount - 1 && readyToMove == true) {
+                  if (buttonTitle == 'commonWords.getStarted'.tr()) {
                     context.go('/signIn');
                   }
                 },
                 child: const CustomButton(),
-                // Container(
-                //   decoration: BoxDecoration(
-                //     color: AppColors.lightBlue,
-                //     borderRadius: BorderRadius.circular(18),
-                //     boxShadow: const [
-                //       BoxShadow(
-                //           color: AppColors.darkBlue,
-                //           offset: Offset(0, 3),
-                //           blurRadius: 0.2)
-                //     ],
-                //   ),
-                //   height: 50,
-                //   width: context.width,
-                //   child: Center(
-                //     child: Text(
-                //       'commonWords.next'.tr(),
-                //       style: context.theme.headline3.semiBold,
-                //     ),
-                //   ),
-                // ),
               ).paddingOnly(right: 25, left: 25, top: 40),
             ],
           ),

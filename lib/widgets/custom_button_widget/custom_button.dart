@@ -8,8 +8,8 @@ import '../../utils/app_colors.dart';
 
 class CustomButton extends StatelessWidget {
   final String? buttonTitle;
-  final Color? buttonColor;
-  final Color? buttonShadowColor;
+  final Color buttonColor;
+  final Color buttonShadowColor;
   final double? borderRadius;
   final double? height;
 
@@ -28,12 +28,13 @@ class CustomButton extends StatelessWidget {
         var stateFromEvent = (state as ButtonTitleChangeState).currentTitle;
         return Container(
           decoration: BoxDecoration(
-            color: AppColors.lightBlue,
+            color: buttonColor,
             borderRadius: BorderRadius.circular(borderRadius!),
-            boxShadow: const [
+            border: Border.all(width: 0.2),
+            boxShadow: [
               BoxShadow(
-                  color: AppColors.darkBlue,
-                  offset: Offset(0, 3),
+                  color: buttonShadowColor,
+                  offset: const Offset(0, 3),
                   blurRadius: 0.2)
             ],
           ),
@@ -41,8 +42,10 @@ class CustomButton extends StatelessWidget {
           width: context.width,
           child: Center(
             child: Text(
-              stateFromEvent,
-              style: context.theme.headline3.semiBold,
+              buttonTitle ?? stateFromEvent,
+              style: buttonColor != AppColors.lightBlue
+                  ? context.theme.headline3.chalkboardBlack
+                  : context.theme.headline3.white,
             ),
           ),
         );
