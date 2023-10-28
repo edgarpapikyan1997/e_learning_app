@@ -3,6 +3,20 @@ import 'package:flutter/material.dart';
 
 import '../../../utils/app_colors.dart';
 
+Future <String?> validateEmail(String? email) async {
+  const pattern = r'^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-z]+$';
+  final regex = RegExp(pattern);
+  return email!.isEmpty || !regex.hasMatch(email)
+      ? 'signInLogIn.incorrectEmailFill'.tr()
+      : null;
+}
+
+Future<String?> validatePassword(String? password) async {
+  return password!.isEmpty || password.length < 5
+      ? 'signInLogIn.incorrectPassFill'.tr()
+      : null;
+}
+
 Widget reusableIcons({
   double? height,
   double? width,

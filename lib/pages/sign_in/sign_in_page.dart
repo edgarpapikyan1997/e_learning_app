@@ -1,7 +1,7 @@
 import 'package:e_learning_app/blocs/sign_in_bloc/sign_in_bloc.dart';
-import 'package:e_learning_app/blocs/sign_in_bloc/sign_in_event.dart';
 import 'package:e_learning_app/blocs/sign_in_bloc/sign_in_state.dart';
 import 'package:e_learning_app/extensions/extensions.dart';
+import 'package:e_learning_app/pages/sign_in/sign_in_page_widgets/sign_in_controller.dart';
 import 'package:e_learning_app/pages/sign_in/sign_in_page_widgets/sign_in_widgets.dart';
 import 'package:e_learning_app/widgets/third_party_login/third_party_login.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +20,10 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SignInBloc, SignInState>(
-      builder: (context, state) => Scaffold(
+    return BlocBuilder<SignInBloc, SignInState>(builder: (context, state) {
+      var email = (state as SignInDataState).email;
+      var password = state.password;
+      return Scaffold(
         appBar: PreferredSize(
             preferredSize: const Size.fromHeight(50),
             child: customAppBar(
@@ -77,7 +79,23 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                     ).paddingOnly(bottom: 100),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        String? validate = validateCheck(
+                            checkEmailVal: email,
+                            checkPasswordVal: password) as String?;
+                        if (validate == '') {
+                          SignInController(
+                            context: context,
+                            emailAddress: email,
+                            password: password,
+                          ).handleSignIn('signInLogIn.email'.tr());
+                          print(email);
+                          print(password);
+                        }
+                        else {
+
+                        }
+                      },
                       child: CustomButton(
                         height: 50,
                         borderRadius: 15,
@@ -108,7 +126,22 @@ class _SignInPageState extends State<SignInPage> {
             ],
           ).paddingHorizontal(25),
         ),
-      ),
-    );
+      );
+    });
+  }
+}
+
+Future<String?> validateCheck({
+  String? checkEmailVal,
+  String? checkPasswordVal,
+}) async {
+  if (checkEmailVal!.isEmpty && checkPasswordVal!.isEmpty) {
+    return 'signInLogIn.emptyFields'.tr();
+  } else {
+    String? emailValidation = await validateEmail(checkEmailVal);
+    String? passwordValidation = await validatePassword(checkPasswordVal);
+    return emailValidation != null && passwordValidation != null
+        ? ''
+        : emailValidation ?? passwordValidation;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:e_learning_app/blocs/sign_in_bloc/sign_in_state.dart';
 import 'package:e_learning_app/extensions/extensions.dart';
+import 'package:e_learning_app/pages/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/sign_in_bloc/sign_in_bloc.dart';
@@ -21,7 +22,7 @@ class CustomLoginTextField extends StatefulWidget {
 }
 
 class _CustomLoginTextFieldState extends State<CustomLoginTextField> {
-  bool obscureSwitch = true;
+  bool obscureSwitch = false;
   bool selectedField = false;
   final _textController = TextEditingController();
 
@@ -32,55 +33,81 @@ class _CustomLoginTextFieldState extends State<CustomLoginTextField> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return TextField(
+  void initState() {
+    super.initState();
+  }
 
-      controller: _textController,
-      onChanged: (value) {
-        widget.passwordField == false
-            ? BlocProvider.of<SignInBloc>(context).add(SignInEmailEvent(value))
-            : BlocProvider.of<SignInBloc>(context)
-                .add(SignInPasswordEvent(value));
+
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SignInBloc, SignInState>(
+      builder: (context, state) {
+        var emailCurrent = (state as SignInDataState).email;
+        var emailPrevious = (state).emailPreviousState;
+        return TextField(
+          controller: _textController,
+          onChanged: (value) {
+            widget.passwordField == false
+                ? BlocProvider.of<SignInBloc>(context)
+                    .add(SignInEmailEvent(value))
+                : BlocProvider.of<SignInBloc>(context)
+                    .add(SignInPasswordEvent(value));
+          },
+          onTap: () {
+            selectedField = true;
+          },
+          onTapOutside: ((event) {
+            selectedField = false;
+            FocusScope.of(context).unfocus();
+          }),
+          obscureText:
+              widget.passwordField == true ? !obscureSwitch : obscureSwitch,
+          obscuringCharacter: '*',
+          decoration: InputDecoration(
+            ///------------
+            // errorBorder: OutlineInputBorder(
+            //     borderRadius: BorderRadius.circular(15),
+            //     borderSide: BorderSide(width: 1, color: AppColors.red)),
+
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide(
+                    width: 1,
+                    color: AppColors.lightBlue)),
+
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: const BorderSide(width: 1, color: AppColors.black)),
+
+            ///-------------
+
+            prefixIcon: widget.icon,
+            iconColor: AppColors.lightBlue,
+            hintText: widget.icon == const Icon(Icons.person)
+                ? 'signInLogIn.emailHint'.tr()
+                : 'signInLogIn.passwordHint'.tr(),
+            hintStyle: context.theme.headline6.grayOption,
+            border: InputBorder.none,
+            suffixIconColor: selectedField == true
+                ? AppColors.lightBlue
+                : AppColors.gray.withOpacity(0.8),
+            suffixIcon: widget.passwordField == false
+                ? const SizedBox()
+                : IconButton(
+                    icon: obscureSwitch == true
+                        ? const Icon(Icons.visibility_off)
+                        : const Icon(Icons.visibility),
+                    onPressed: () {
+                      obscureSwitch = !obscureSwitch;
+                      BlocProvider.of<SignInBloc>(context)
+                          .add(PasswordObscureEvent(obscureSwitch));
+                    },
+                  ),
+          ),
+          style: context.theme.headline6.chalkboardBlack,
+        );
       },
-      onTap: () {
-        selectedField = true;
-      },
-      onTapOutside: ((event) {
-        selectedField = false;
-        FocusScope.of(context).unfocus();
-      }),
-      obscureText: widget.passwordField ? obscureSwitch : !obscureSwitch,
-      obscuringCharacter: '*',
-      decoration: InputDecoration(
-        focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(width: 1, color: AppColors.lightBlue)),
-        enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(width: 1, color: AppColors.black)),
-        prefixIcon: widget.icon,
-        iconColor: AppColors.lightBlue,
-        hintText: widget.icon == const Icon(Icons.person)
-            ? 'signInLogIn.emailHint'.tr()
-            : 'signInLogIn.passwordHint'.tr(),
-        hintStyle: context.theme.headline6.grayOption,
-        border: InputBorder.none,
-        suffixIconColor: selectedField
-            ? AppColors.lightBlue
-            : AppColors.gray.withOpacity(0.8),
-        suffixIcon: widget.passwordField == false
-            ? const SizedBox()
-            : IconButton(
-                icon: obscureSwitch == true
-                    ? const Icon(Icons.visibility_off)
-                    : const Icon(Icons.visibility),
-                onPressed: () {
-                  obscureSwitch = !obscureSwitch;
-                  BlocProvider.of<SignInBloc>(context).add(PasswordObscureEvent(obscureSwitch));
-                },
-              ),
-      ),
-      style: context.theme.headline6.chalkboardBlack,
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:e_learning_app/blocs/custom_button_bloc/custom_button_bloc.dart';
-import 'package:e_learning_app/extensions/context_extension.dart';
 import 'package:e_learning_app/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +18,8 @@ class CustomButton extends StatelessWidget {
       this.borderRadius = 10,
       this.buttonShadowColor = AppColors.darkBlue,
       this.height = 50,
-      this.buttonTitle});
+      this.buttonTitle,
+      });
 
   @override
   Widget build(BuildContext context) {
