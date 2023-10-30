@@ -6,7 +6,6 @@ abstract class CustomButtonEvent extends Equatable {
 }
 
 
-
 class ButtonTitleChangeEvent extends CustomButtonEvent {
   final String newTitle;
 
@@ -15,3 +14,11 @@ class ButtonTitleChangeEvent extends CustomButtonEvent {
   @override
   List<Object?> get props => [newTitle];
 }
+
+
+class ButtonPressedEvent extends CustomButtonEvent {
+  final bool value;
+
+  ButtonPressedEvent({this.value = false});
+}
+

@@ -6,19 +6,41 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   SignInBloc() : super(const SignInDataState()) {
     on<SignInEmailEvent>((event, emit) {
       final currentState = state as SignInDataState;
-      emit(currentState.copyWith(email: event.email));
+      emit(currentState.copyWith(
+        email: event.email,
+      ));
     });
     on<SignInPasswordEvent>((event, emit) {
       final currentState = state as SignInDataState;
-      emit(currentState.copyWith(password: event.password));
+      emit(currentState.copyWith(
+        password: event.password,
+      ));
     });
     on<PasswordObscureEvent>((event, emit) {
       var currentState = (state as SignInDataState).obscureText;
       currentState = event.obscure;
-      print('obscure $currentState');
       emit(SignInDataState(obscureText: currentState));
     });
+
+    on<SignInEmailPasswordError>((event, emit) {
+      final currentState = state as SignInDataState;
+
+      emit(currentState.copyWith(
+        errorEmail: event.emailError,
+        errorPassword: event.passwordError,
+      ));
+    });
+
+    on<SignInEmailError>((event, emit) {
+      String? errorState = (state as SignInDataState).errorEmail;
+      errorState = event.errorEmailText;
+      emit(SignInDataState(errorEmail: errorState ?? ''));
+    });
+
+    on<SignInPasswordError>((event, emit) {
+      String? errorState = (state as SignInDataState).errorPassword;
+      errorState = event.errorPasswordText;
+      emit(SignInDataState(errorPassword: errorState ?? ''));
+    });
   }
-
-
 }

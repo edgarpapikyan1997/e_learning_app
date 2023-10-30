@@ -1,6 +1,6 @@
 part of 'custom_button_bloc.dart';
 
-abstract class CustomButtonState extends Equatable {
+class CustomButtonState extends Equatable {
   @override
   List<Object?> get props => [];
 }
@@ -12,4 +12,13 @@ class ButtonTitleChangeState extends CustomButtonState {
 
   @override
   List<Object?> get props => [currentTitle];
+}
+
+class ButtonPressedState extends CustomButtonState {
+  final bool press;
+
+  ButtonPressedState({this.press = false});
+
+  @override
+  List<Object?> get props => [press];
 }

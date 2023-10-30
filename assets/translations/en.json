@@ -21,6 +21,9 @@
     "password": "Password",
     "emailHint": "Enter your email address",
     "passwordHint": "Enter your password",
-    "forgot": "Forgot Password?"
+    "forgot": "Forgot Password?",
+    "incorrectEmailFill" : "Email is incorrect. Enter a valid email address",
+    "incorrectPassFill" : "It must be at least 6 characters",
+    "emptyFields" : "The email and password fields are empty."
   }
 }
