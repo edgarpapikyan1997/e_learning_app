@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:e_learning_app/blocs/bloc_providers/bloc_providers.dart';
 import 'package:e_learning_app/blocs/custom_button_bloc/custom_button_bloc.dart';
 import 'package:e_learning_app/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:e_learning_app/extensions/extensions.dart';
@@ -29,21 +30,7 @@ void main() async {
       supportedLocales: const [Locale('en')],
       path: 'assets/translations',
       child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            lazy: false,
-            create: (context) => WelcomeBloc(),
-          ),
-          BlocProvider(
-            create: (_) => DotIndicatorBloc(),
-          ),
-          BlocProvider(
-            create: (_) => CustomButtonBloc(),
-          ),
-          BlocProvider(
-            create: (context) => SignInBloc(),
-          )
-        ],
+        providers: AppBlocProviders.allBlocProviders,
         child: const MyApp(),
       ),
     ),

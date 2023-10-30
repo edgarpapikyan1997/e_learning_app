@@ -9,12 +9,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       emit(currentState.copyWith(
         email: event.email,
       ));
-      print("previous is ${currentState.email}");
-      print('current is ${event.email}');
     });
     on<SignInPasswordEvent>((event, emit) {
       final currentState = state as SignInDataState;
-      print("password is $currentState");
       emit(currentState.copyWith(
         password: event.password,
       ));
@@ -24,15 +21,26 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       currentState = event.obscure;
       emit(SignInDataState(obscureText: currentState));
     });
-    on<SignInEmailError>((event, emit) {
-      String? errorState = (state as SignInErrorState).errorEmail;
-      errorState = event.errorEmailText;
-      emit(SignInErrorState(errorEmail: errorState ?? ''));
+
+    on<SignInEmailPasswordError>((event, emit) {
+      final currentState = state as SignInDataState;
+
+      emit(currentState.copyWith(
+        errorEmail: event.emailError,
+        errorPassword: event.passwordError,
+      ));
     });
+
+    on<SignInEmailError>((event, emit) {
+      String? errorState = (state as SignInDataState).errorEmail;
+      errorState = event.errorEmailText;
+      emit(SignInDataState(errorEmail: errorState ?? ''));
+    });
+
     on<SignInPasswordError>((event, emit) {
-      String? errorState = (state as SignInErrorState).errorPassword;
+      String? errorState = (state as SignInDataState).errorPassword;
       errorState = event.errorPasswordText;
-      emit(SignInErrorState(errorPassword: errorState ?? ''));
+      emit(SignInDataState(errorPassword: errorState ?? ''));
     });
   }
 }

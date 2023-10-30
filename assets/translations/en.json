@@ -24,6 +24,6 @@
     "forgot": "Forgot Password?",
     "incorrectEmailFill" : "Email is incorrect. Enter a valid email address",
     "incorrectPassFill" : "It must be at least 6 characters",
-    "emptyFields" : "The fields are empty"
+    "emptyFields" : "The email and password fields are empty."
   }
 }

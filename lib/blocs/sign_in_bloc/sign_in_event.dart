@@ -36,5 +36,17 @@ class SignInEmailError extends SignInEvent {
 class SignInPasswordError extends SignInEvent {
   final String? errorPasswordText;
 
-  const SignInPasswordError({this.errorPasswordText});
+  const SignInPasswordError({
+    this.errorPasswordText,
+  });
+}
+
+class SignInEmailPasswordError extends SignInEvent {
+  final String? emailError;
+  final String? passwordError;
+
+  const SignInEmailPasswordError({
+    this.emailError,
+    this.passwordError,
+  });
 }

@@ -7,49 +7,35 @@ abstract class SignInState extends Equatable {
   List<Object> get props => [];
 }
 
-class SignInErrorState extends SignInState {
-  final String errorEmail;
-  final String errorPassword;
 
-  const SignInErrorState({
-    this.errorEmail = '',
-    this.errorPassword = '',
-  });
-
-  SignInErrorState copyWith({
-    String? errorEmail,
-    String? errorPassword,
-  }) {
-    return SignInErrorState(
-      errorEmail: errorEmail ?? this.errorEmail,
-      errorPassword: errorPassword ?? this.errorPassword
-    );
-  }
-}
 
 class SignInDataState extends SignInState {
   final String email;
   final String password;
-  final String emailPreviousState;
-  final String passwordPreviousState;
+  final String errorEmail;
+  final String errorPassword;
   final bool obscureText;
 
   const SignInDataState({
     this.email = "",
     this.password = "",
-    this.emailPreviousState = "",
-    this.passwordPreviousState = "",
+    this.errorEmail = "",
+    this.errorPassword = "",
     this.obscureText = false,
   });
 
   SignInDataState copyWith({
     String? email,
     String? password,
+    String? errorEmail,
+    String? errorPassword,
     bool? obscureText,
   }) {
     return SignInDataState(
         email: email ?? this.email,
         password: password ?? this.password,
+        errorEmail: errorEmail ?? this.errorEmail,
+        errorPassword: errorPassword ?? this.errorPassword,
         obscureText: obscureText ?? this.obscureText);
   }
 

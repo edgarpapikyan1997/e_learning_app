@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/sign_in_bloc/sign_in_bloc.dart';
 import '../../blocs/sign_in_bloc/sign_in_event.dart';
+import '../../pages/sign_in/sign_in_page_widgets/sign_in_widgets.dart';
 import '../../utils/app_colors.dart';
 
 class CustomLoginTextField extends StatefulWidget {
@@ -37,14 +38,14 @@ class _CustomLoginTextFieldState extends State<CustomLoginTextField> {
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignInBloc, SignInState>(
       builder: (context, state) {
-        var emailCurrent = (state as SignInDataState).email;
-        var emailPrevious = (state).emailPreviousState;
+        var email = (state as SignInDataState).email;
+        var password = state.password;
+        var errorEmail = (state as SignInDataState).errorEmail;
+        var errorPassword = state.errorPassword;
         return TextField(
           controller: _textController,
           onChanged: (value) {
@@ -66,21 +67,41 @@ class _CustomLoginTextFieldState extends State<CustomLoginTextField> {
           obscuringCharacter: '*',
           decoration: InputDecoration(
             ///------------
-            // errorBorder: OutlineInputBorder(
-            //     borderRadius: BorderRadius.circular(15),
-            //     borderSide: BorderSide(width: 1, color: AppColors.red)),
-
+            errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide(width: 1, color: AppColors.red)),
+            focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide(width: 1, color: AppColors.red)),
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
-                borderSide: BorderSide(
-                    width: 1,
-                    color: AppColors.lightBlue)),
-
+                borderSide: BorderSide(width: 1, color: AppColors.lightBlue)),
             enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(width: 1, color: AppColors.black)),
 
             ///-------------
+            errorText: errorEmail.isNotEmpty ||
+                errorPassword.isNotEmpty
+                ? widget.passwordField == false
+                    ? validateEmail(email)
+                    : validatePassword(password)
+                : null,
+
+
+
+            // errorEmail.isNotEmpty ||
+            //         errorPassword.isNotEmpty && widget.passwordField == false
+            //     ? validateEmail(email)
+            //     : validatePassword(password),
+
+            // errorEmail.isNotEmpty && errorPassword.isEmpty && widget.passwordField == false
+            //         ? 'signInLogIn.incorrectEmailFill'.tr()
+            //         : errorEmail.isEmpty && errorPassword.isNotEmpty && widget.passwordField == true
+            //             ? 'signInLogIn.incorrectPassFill'.tr()
+            //             : null,
+
+
 
             prefixIcon: widget.icon,
             iconColor: AppColors.lightBlue,
@@ -88,7 +109,6 @@ class _CustomLoginTextFieldState extends State<CustomLoginTextField> {
                 ? 'signInLogIn.emailHint'.tr()
                 : 'signInLogIn.passwordHint'.tr(),
             hintStyle: context.theme.headline6.grayOption,
-            border: InputBorder.none,
             suffixIconColor: selectedField == true
                 ? AppColors.lightBlue
                 : AppColors.gray.withOpacity(0.8),
