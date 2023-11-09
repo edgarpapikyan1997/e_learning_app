@@ -1,15 +1,18 @@
 import 'package:e_learning_app/blocs/sign_in_bloc/sign_in_bloc.dart';
-import 'package:e_learning_app/blocs/sign_in_bloc/sign_in_event.dart';
 import 'package:e_learning_app/blocs/sign_in_bloc/sign_in_state.dart';
 import 'package:e_learning_app/extensions/extensions.dart';
 import 'package:e_learning_app/pages/sign_in/sign_in_page_widgets/sign_in_controller.dart';
-import 'package:e_learning_app/pages/sign_in/sign_in_page_widgets/sign_in_widgets.dart';
 import 'package:e_learning_app/widgets/third_party_login/third_party_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import '../../blocs/sign_in_bloc/sign_in_event.dart';
 import '../../utils/app_colors.dart';
 import '../../widgets/custom_button_widget/custom_button.dart';
 import '../../widgets/custom_text_field_widget/custom_login_text_field.dart';
+import '../../widgets/methods_returning_widgets/custom_app_bar.dart';
+import '../../widgets/methods_returning_widgets/progress_methods.dart';
+import '../../widgets/methods_returning_widgets/sign_in_widgets.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -59,7 +62,7 @@ class _SignInPageState extends State<SignInPage> {
                       icon: Icon(Icons.person),
                     ),
                     const SizedBox(
-                      height: 40,
+                      height: 30,
                     ),
                     Text(
                       'signInLogIn.password'.tr(),
@@ -82,7 +85,12 @@ class _SignInPageState extends State<SignInPage> {
                     GestureDetector(
                       onTap: () {
                         checkValidity(
-                            context: context, email: email, password: password);
+                          context: context,
+                          email: state.email,
+                          password: state.password,
+                          errorEmail: state.errorEmail,
+                          errorPassword: state.errorPassword,
+                        );
                       },
                       child: CustomButton(
                         height: 50,
@@ -96,7 +104,9 @@ class _SignInPageState extends State<SignInPage> {
                       height: 40,
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        context.go('/registerPage');
+                      },
                       child: CustomButton(
                         height: 50,
                         borderRadius: 15,
@@ -118,44 +128,66 @@ class _SignInPageState extends State<SignInPage> {
     });
   }
 
-  void checkValidity(
-      {required BuildContext context, String? email, String? password}) {
-    if (email!.isEmpty && password!.isEmpty) {
-      BlocProvider.of<SignInBloc>(context).add(
-          SignInEmailPasswordError(emailError: 'signInLogIn.emptyFields'.tr()));
-      return;
-    } else {
-      String? validateEmailCheck = validateEmail(email);
-      if (email.isNotEmpty && password!.isEmpty) {
-        if (validateEmailCheck != null) {
-          BlocProvider.of<SignInBloc>(context).add(SignInEmailError(
-              errorEmailText: 'signInLogIn.incorrectEmailFill'.tr()));
-          return;
-        } else {
-          BlocProvider.of<SignInBloc>(context).add(SignInPasswordError(
-              errorPasswordText: 'signInLogIn.incorrectPassFill'.tr()));
-          return;
-        }
-      } else {
-        String? validatePasswordCheck = validatePassword(password);
-        if (email.isEmpty && password!.isNotEmpty) {
-          if (validatePasswordCheck != null) {
-            BlocProvider.of<SignInBloc>(context).add(SignInPasswordError(
-                errorPasswordText: 'signInLogIn.incorrectPassFill'.tr()));
-            return;
-          } else {
-            BlocProvider.of<SignInBloc>(context).add(SignInEmailError(
-                errorEmailText: 'signInLogIn.incorrectEmailFill'.tr()));
-            return;
-          }
-        } else {
-          SignInController(
-            context: context,
-            emailAddress: email,
-            password: password!,
-          ).handleSignIn();
-        }
+  void checkValidity({
+    required BuildContext context,
+    String? email,
+    String? password,
+    String? errorEmail,
+    String? errorPassword,
+  }) {
+    String? validateEmailCheck = validateEmail(email);
+    String? validatePasswordCheck = validatePassword(password);
+    circularProgress(context);
+    Future.delayed(const Duration(seconds: 1), () {
+      // if (email!.isEmpty && password!.isEmpty) {
+      //   BlocProvider.of<SignInBloc>(context).add(SignInEmailPasswordError(
+      //       emailError: 'signInLogIn.emptyFields'.tr()));
+      //   context.pop();
+      // } else {
+      //   String? validateEmailCheck = validateEmail(email);
+      //   if (email.isNotEmpty && password!.isEmpty) {
+      //     if (validateEmailCheck != null) {
+      //       BlocProvider.of<SignInBloc>(context).add(SignInEmailError(
+      //           errorEmailText: 'signInLogIn.incorrectEmailFill'.tr()));
+      //       context.pop();
+      //     } else {
+      //       BlocProvider.of<SignInBloc>(context).add(SignInPasswordError(
+      //           errorPasswordText: 'signInLogIn.incorrectPassFill'.tr()));
+      //       context.pop();
+      //     }
+      //   }
+      //   else {
+      // String? validatePasswordCheck = validatePassword(password);
+      // if (email.isEmpty && password!.isNotEmpty) {
+      //   if (validatePasswordCheck != null) {
+      //     BlocProvider.of<SignInBloc>(context).add(SignInPasswordError(
+      //         errorPasswordText: 'signInLogIn.incorrectPassFill'.tr()));
+      //     context.pop();
+      //   } else {
+      //     BlocProvider.of<SignInBloc>(context).add(SignInEmailError(
+      //         errorEmailText: 'signInLogIn.incorrectEmailFill'.tr()));
+      //     context.pop();
+      //   }
+      // } else {
+      print('email: $email, password: $password');
+      if (email!.isEmpty || validateEmailCheck != null) {
+        BlocProvider.of<SignInBloc>(context).add(SignInEmailError(
+            errorEmailText: 'signInLogIn.incorrectEmailFill'.tr()));
+        context.pop();
+        return;
       }
-    }
+      if (password!.isEmpty || validatePasswordCheck != null) {
+        BlocProvider.of<SignInBloc>(context).add(SignInPasswordError(
+            errorPasswordText: 'signInLogIn.incorrectPassFill'.tr()));
+        context.pop();
+        return;
+      }
+      ///----------------------///
+      SignInController(
+        context: context,
+        emailAddress: email,
+        password: password,
+      ).handleSignIn();
+    });
   }
 }

@@ -75,7 +75,6 @@ extension ThemeDataHelper on ThemeData {
     color: AppColors.white,
     fontSize: 12,
     height: 1.16,
-    decoration: TextDecoration.underline
   );
 
   TextStyle get headline8 => const TextStyle(
