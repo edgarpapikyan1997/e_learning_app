@@ -16,14 +16,32 @@
     "register" : "Register",
     "signIn": "Sign In",
     "logIn": "Log In",
-    "loginAdvice": "Or use your email account login",
     "email": "Email",
     "password": "Password",
+    "confirm": "Confirm",
+    "forgot": "Forgot Password?",
+    "loginAdvice": "Or use your email account login",
+    "registerAdvice" : "Enter your details below & sign up",
+    "confirmPass" : "Confirm typed password",
+    "enterName" : "Enter your user name",
     "emailHint": "Enter your email address",
     "passwordHint": "Enter your password",
-    "forgot": "Forgot Password?",
     "incorrectEmailFill" : "Email is incorrect. Enter a valid email address",
-    "incorrectPassFill" : "It must be at least 6 characters",
-    "emptyFields" : "The email and password fields are empty."
+    "incorrectPassFill" : "Password is incorrect.",
+    "emptyFields" : "The email and password fields are empty.",
+    "userNotFound" : "User not found",
+    "emailInUse" : "Provided email already in use",
+    "notAllowed" : "Operation not allowed",
+    "weakPass" : "Weak password",
+    "atLeastSix" : "Must be at least 5 characters",
+    "emptyName" : "Incorrect or empty user name field",
+    "doConfirm" : "Re enter your pass here",
+    "checkEmail": "Check out email box",
+    "goTroughLink": "Go trough the link to validate your account",
+    "afterLogIn": "After, Log in to your account",
+    "registerAgreement" : "By creating an account, you have to agree to our terms and conditions"
+  },
+  "profile" : {
+    "userName" : "User Name"
   }
 }

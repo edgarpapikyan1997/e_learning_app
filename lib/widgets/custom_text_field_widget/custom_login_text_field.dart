@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/sign_in_bloc/sign_in_bloc.dart';
 import '../../blocs/sign_in_bloc/sign_in_event.dart';
-import '../../pages/sign_in/sign_in_page_widgets/sign_in_widgets.dart';
+import '../methods_returning_widgets/sign_in_widgets.dart';
 import '../../utils/app_colors.dart';
 
 class CustomLoginTextField extends StatefulWidget {
@@ -44,7 +44,7 @@ class _CustomLoginTextFieldState extends State<CustomLoginTextField> {
       builder: (context, state) {
         var email = (state as SignInDataState).email;
         var password = state.password;
-        var errorEmail = (state as SignInDataState).errorEmail;
+        var errorEmail = state.errorEmail;
         var errorPassword = state.errorPassword;
         return TextField(
           controller: _textController,
@@ -79,30 +79,12 @@ class _CustomLoginTextFieldState extends State<CustomLoginTextField> {
             enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(width: 1, color: AppColors.black)),
-
             ///-------------
-            errorText: errorEmail.isNotEmpty ||
-                errorPassword.isNotEmpty
+            errorText: errorEmail.isNotEmpty || errorPassword.isNotEmpty
                 ? widget.passwordField == false
                     ? validateEmail(email)
                     : validatePassword(password)
                 : null,
-
-
-
-            // errorEmail.isNotEmpty ||
-            //         errorPassword.isNotEmpty && widget.passwordField == false
-            //     ? validateEmail(email)
-            //     : validatePassword(password),
-
-            // errorEmail.isNotEmpty && errorPassword.isEmpty && widget.passwordField == false
-            //         ? 'signInLogIn.incorrectEmailFill'.tr()
-            //         : errorEmail.isEmpty && errorPassword.isNotEmpty && widget.passwordField == true
-            //             ? 'signInLogIn.incorrectPassFill'.tr()
-            //             : null,
-
-
-
             prefixIcon: widget.icon,
             iconColor: AppColors.lightBlue,
             hintText: widget.icon == const Icon(Icons.person)

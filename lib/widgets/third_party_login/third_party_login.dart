@@ -1,8 +1,7 @@
 import 'package:e_learning_app/extensions/widget_extension.dart';
 import 'package:flutter/material.dart';
-
-import '../../pages/sign_in/sign_in_page_widgets/sign_in_widgets.dart';
 import '../../utils/assets.dart';
+import '../methods_returning_widgets/reusable_icons.dart';
 
 class ThirdPartyLogin extends StatelessWidget {
   const ThirdPartyLogin({super.key});

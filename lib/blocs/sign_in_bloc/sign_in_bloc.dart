@@ -34,12 +34,14 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     on<SignInEmailError>((event, emit) {
       String? errorState = (state as SignInDataState).errorEmail;
       errorState = event.errorEmailText;
+      print(errorState);
       emit(SignInDataState(errorEmail: errorState ?? ''));
     });
 
     on<SignInPasswordError>((event, emit) {
       String? errorState = (state as SignInDataState).errorPassword;
       errorState = event.errorPasswordText;
+      print(errorState);
       emit(SignInDataState(errorPassword: errorState ?? ''));
     });
   }

@@ -1,15 +1,11 @@
 import 'dart:io';
 import 'package:e_learning_app/blocs/bloc_providers/bloc_providers.dart';
-import 'package:e_learning_app/blocs/custom_button_bloc/custom_button_bloc.dart';
-import 'package:e_learning_app/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:e_learning_app/extensions/extensions.dart';
 import 'package:e_learning_app/utils/app_colors.dart';
 import 'package:e_learning_app/utils/go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'blocs/dot_indicator_bloc/dot_indicator_bloc.dart';
-import 'blocs/welcome_bloc/welcome_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
